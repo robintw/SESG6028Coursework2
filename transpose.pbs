@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -S /bin/bash
+# Use 1 core on 1 node
+#PBS -l nodes=2:ppn=8
+# Maximum time to run of 10 minues 
+#PBS -l walltime=01:00:00 
+                          
+module load gcc/4.3.3
+module load openmpi
+module swap openmpi openmpi/1.4.3/qlogic/gcc
+
+cd $PBS_O_WORKDIR     # Change to directory from 
+                      # which job was submitted
+
+OUTPUT_FILE="output_v1_np1-8_n1k.txt"
+
+for i in {1..8}
+do
+   mpirun -np $i ./transpose_v1 1000 >> $OUTPUT_FILE
+done
